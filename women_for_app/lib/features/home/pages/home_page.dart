@@ -6,7 +6,6 @@ import 'package:women_for_app/features/common/widgets/app_bar_widget.dart';
 import 'package:women_for_app/features/home/managers/userBloc/user_bloc.dart';
 import 'package:women_for_app/features/home/managers/userBloc/user_state.dart';
 import 'package:women_for_app/core/utils/status.dart';
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 

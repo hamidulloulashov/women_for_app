@@ -1,5 +1,4 @@
 import 'package:women_for_app/core/client.dart';
-
 import '../../core/result.dart';
 import '../model/user/user_model.dart';
 

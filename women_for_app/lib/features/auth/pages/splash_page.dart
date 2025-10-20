@@ -1,15 +1,15 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:women_for_app/core/utils/app_colors.dart';
-import 'package:women_for_app/features/auth/pages/login_page.dart';
+
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPage();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPage extends State<SplashPage>
+class _SplashPageState extends State<SplashPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
@@ -23,13 +23,16 @@ class _SplashPage extends State<SplashPage>
       vsync: this,
     );
 
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    );
 
     _controller.forward();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LoginPage()),
-      );
+
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      GoRouter.of(context).go("/login");
     });
   }
 
@@ -42,35 +45,66 @@ class _SplashPage extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.greyShade,
       body: FadeTransition(
         opacity: _animation,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Stack(
+                alignment: Alignment.center,
+                clipBehavior: Clip.none,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
                         "Ayol",
-                        style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, fontStyle: FontStyle.italic, color: AppColors.containerBlack),
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.containerBlack,
+                          height: 1.0,
+                        ),
                       ),
-                    SizedBox(width: 5,),
-                         Text(
+                      const SizedBox(width: 4),
+                      Text(
                         "Uchun",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color: AppColors.containerBlack),
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w300,
+                          color: AppColors.containerBlack,
+                          height: 1.0,
+                        ),
                       ),
-
                     ],
                   ),
-                     Text(
-                        "ayollar uchun maxsus blog",
-                        style: TextStyle(fontSize: 10, color: AppColors.containerBlack),
-                      ),
+              
+                  Positioned(
+                    top: -40, 
+                    right: 60, 
+                    child: Image.asset(
+                      "assets/splash_for.png",
+                      width: 64,
+                      height: 64,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 90),
+                child: Text(
+                  "ayollar uchun maxsus blog",
+                  style: TextStyle(
+                    fontSize: 8,
+                    color: AppColors.containerBlack.withOpacity(0.6),
+                  ),
+                ),
+              ),
             ],
           ),
-        
         ),
       ),
     );
